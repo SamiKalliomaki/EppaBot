@@ -1,4 +1,5 @@
 import re
+import socket
 from bs4 import BeautifulSoup
 from html.parser import HTMLParseError
 from http.client import HTTPException
@@ -15,7 +16,7 @@ class TitleModule(BotModule):
 		if match != None:
 			try:
 				soup = BeautifulSoup(request.urlopen(match.group(0), None, 1))
-			except (request.URLError, HTMLParseError, HTTPException):
+			except (request.URLError, HTMLParseError, HTTPException, socket.timeout):
 				pass
 			else:
 				if soup.title != None:
