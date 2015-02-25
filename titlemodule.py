@@ -16,7 +16,7 @@ class TitleModule(BotModule):
 		if match != None:
 			try:
 				soup = BeautifulSoup(request.urlopen(match.group(0), None, 1))
-			except (request.URLError, HTMLParseError, HTTPException, socket.timeout):
+			except (request.URLError, HTMLParseError, HTTPException, socket.timeout, socket.error):
 				pass
 			else:
 				if soup.title != None:
