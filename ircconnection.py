@@ -147,7 +147,10 @@ class IRCConnection(asyncore.dispatcher):
 		self.input_buffer = split[-1]
 
 		for line in split[:-1]:
-			line = line.decode('utf-8').rstrip('\r\n')
+			try:
+				line = line.decode('utf-8').rstrip('\r\n')
+			except UnicodeDecodeError:
+				print('Warning: Invalid utf-8 received')
 
 			self.bot.log('{} <- {}'.format(self.network, line))
 			try:
