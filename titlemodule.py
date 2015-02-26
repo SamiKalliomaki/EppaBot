@@ -27,7 +27,7 @@ class TitleModule(BotModule):
 		url = match.group(0)
 		identifier = respond + '@' + conn.network
 
-		if not identifier in self.last_seen:
+		if not identfier in self.last_seen:
 			self.last_seen[identifier] = {}
 
 		last_seen_this = self.last_seen[identifier].get(url, datetime.min)

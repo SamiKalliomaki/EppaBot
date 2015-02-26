@@ -1,4 +1,5 @@
 import time
+import traceback
 from ircconnection import IRCConnection
 from asynschedcore import asynschedcore
 
@@ -43,13 +44,28 @@ class IRCBot:
 			func(conn, msg)
 
 		for module in self.modules:
-			module.handle_msg(conn, msg)
+			try:
+				module.handle_msg(conn, msg)
+			except:
+				self.log(traceback.format_exc())
+				self.uninstall_module(module)
 
 	def install_module(self, module_class, **kwargs):
-		self.modules.append(module_class(self, **kwargs))
+		try:
+			module = module_class(self, **kwargs)
+		except:
+			self.log('Initializing module failed')
+			self.log(traceback.format_exc())
+
+		self.modules.append(module)
 
 	def uninstall_module(self, module):
-		module.unload()
+		try:
+			module.unload()
+		except:
+			self.log('Unloading module failed')
+			self.log(traceback.format_exc())
+
 		self.modules.remove(module)
 
 	def register_service(self, name, service):
