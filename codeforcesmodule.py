@@ -13,7 +13,7 @@ class CodeForcesModule(BotModule):
 	def handle_cmd_nextcf(self, conn, **kwargs):
 		try:
 			data = json.loads(request.urlopen('http://codeforces.com/api/contest.list', None, 1).read().decode('utf-8'))
-		except (request.URLError, ValueError):
+		except (request.URLError, HTMLParseError, HTTPException, socket.timeout, socket.error, ValueError):
 			conn.msg_privmsg(kwargs['respond'], 'Fetching data from API failed')
 			return
 
