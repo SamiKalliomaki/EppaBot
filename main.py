@@ -1,3 +1,4 @@
+import yaml
 from ircbot import IRCBot
 from channelmodule import ChannelModule
 from permissionmodule import PermissionModule
@@ -9,12 +10,13 @@ from adminmodule import AdminModule
 from dynamicmoduleloadermodule import DynamicModuleLoaderModule
 
 if __name__ == '__main__':
-	bot = IRCBot('EppaBot', 'eppabot', 'EppaBot')
-	bot.connect('IRCNet', 'rajaniemi.freenode.net', 6667)
+	settings = yaml.load(open('settings.yaml'))
 
-	bot.install_module(ChannelModule, channels={
-		'IRCNet': ['#eppabot']
-	})
+	bot = IRCBot(settings['nick'], settings['user'], settings['realname'])
+	for network, server in settings['servers'].items():
+		bot.connect(network, **server)
+
+	bot.install_module(ChannelModule, channels=settings['channels'])
 	bot.install_module(PermissionModule)
 	bot.install_module(AutoOPModule)
 	bot.install_module(TitleModule)

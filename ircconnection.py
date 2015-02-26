@@ -7,16 +7,16 @@ class ParseException(Exception):
 	pass
 
 class IRCConnection(asyncore.dispatcher):
-	def __init__(self, bot, network, server, port):
+	def __init__(self, bot, network, host, port):
 		asyncore.dispatcher.__init__(self)
 
 		self.bot = bot
 		self.network = network
-		self.server = server
+		self.host = host
 		self.port = port
 
 		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.connect((server, port))
+		self.connect((host, port))
 
 		self.input_buffer = b''
 		self.output_buffer = b''
@@ -131,11 +131,11 @@ class IRCConnection(asyncore.dispatcher):
 		self.write('MODE {} {} {}'.format(channel, mode, params))
 
 	def handle_connect(self):
-		self.bot.log('Connected to {} ({}:{})'.format(self.network, self.server, self.port))
+		self.bot.log('Connected to {} ({}:{})'.format(self.network, self.host, self.port))
 		self.bot.handle_connect(self)
 
 	def handle_close(self):
-		self.bot.log('Connection closed to {} ({}:{})'.format(self.network, self.server, self.port))
+		self.bot.log('Connection closed to {} ({}:{})'.format(self.network, self.host, self.port))
 		self.close()
 
 		self.bot.handle_close(self)

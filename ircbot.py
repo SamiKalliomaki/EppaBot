@@ -15,8 +15,8 @@ class IRCBot:
 		self.realname = realname
 		self.log_file = open('log.txt', 'a')
 
-	def connect(self, network, server, port):
-		self.connections.append(IRCConnection(self, network, server, port))
+	def connect(self, network, host, port):
+		self.connections.append(IRCConnection(self, network, host, port))
 
 	def log(self, entry):
 		print(entry)
