@@ -4,6 +4,10 @@ class CmdException(Exception):
 class BotModule:
 	def __init__(self, bot):
 		self.bot = bot
+		print('Loaded ' + self.__class__.__name__)
+
+	def unload(self):
+		print('Unloaded ' + self.__class__.__name__)
 
 	def handle_connect(self, conn):
 		pass

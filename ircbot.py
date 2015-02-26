@@ -48,6 +48,10 @@ class IRCBot:
 	def install_module(self, module_class, **kwargs):
 		self.modules.append(module_class(self, **kwargs))
 
+	def uninstall_module(self, module):
+		module.unload()
+		self.modules.remove(module)
+
 	def register_service(self, name, service):
 		self.services[name] = service
 
