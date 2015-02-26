@@ -1,4 +1,5 @@
 import importlib
+import imp
 from botmodule import BotModule, CmdException
 from permissionmodule import permission_required
 
@@ -14,7 +15,7 @@ class DynamicModuleLoaderModule(BotModule):
 
 		try:
 			module = importlib.import_module(name.lower())
-			importlib.reload(module)
+			imp.reload(module)
 		except ImportError as e:
 			raise CmdException('Failed to load the module: ' + str(e))
 
